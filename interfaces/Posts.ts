@@ -1,7 +1,7 @@
 export interface IPost {
   id?: number;
   title?: string;
-  bode?: string;
+  body?: string;
 }
 
 export type IPosts = [IPost];  

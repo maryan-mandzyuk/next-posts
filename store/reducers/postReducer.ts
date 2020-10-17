@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { IPost, IPosts } from '../../interfaces/Posts';
+import { IPost } from '../../interfaces/Posts';
 
 export interface IPostsState {
   posts: Array<IPost>
@@ -16,6 +16,11 @@ export const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload
+      }
+    case types.GET_POST:
+      return {
+        ...state,
+        post: action.payload
       }
     default:
       return state

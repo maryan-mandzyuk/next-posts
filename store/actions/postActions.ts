@@ -7,4 +7,14 @@ export const fetchPosts = () => async dispatch => {
     payload: res.data
 
   })
+};
+
+export const fetchPost = (id: string) => async (dispatch) => {
+  console.log("here");
+  const res = await axios.get(`https://simple-blog-api.crew.red/posts/${id}`);
+  dispatch({
+    type: types.GET_POST,
+    payload: res.data
+
+  })
 }
