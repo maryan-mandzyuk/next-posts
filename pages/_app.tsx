@@ -1,7 +1,8 @@
+import React from "react";
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
-import { store } from '../store/store'
+import { store } from '../store/store';
 
 function MyApp({ Component, pageProps }) {
   return (

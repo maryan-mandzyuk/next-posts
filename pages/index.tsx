@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import axios from 'axios'
 import { IPostsState } from '../store/reducers/postReducer';
-import styles from '../styles/Home.module.css'
-import { fetchPosts } from './../store/actions/postActions';
+import { setPosts } from './../store/actions/postActions';
 import { Post } from './../components/Post';
 import { MainLayout } from './../components/MainLayout';
+import { IPost } from './../interfaces/Posts';
 
 const PostsLayout = styled.div`
   display: flex;
@@ -17,13 +18,20 @@ interface IState {
   post: any
 }
 
-const Home = () => {
+type HomeProps = {
+  posts: IPost[];
+}
+
+const Home: FunctionComponent<HomeProps> = ({ posts }) => {
 
   const dispatch = useDispatch();
-  const { posts } = useSelector<IState, IPostsState>(state => state.post)
+
+  //const { posts } = useSelector<IState, IPostsState>(state => state.post)
+
   useEffect(() => {
-    dispatch(fetchPosts())
-  }, [])
+    dispatch(setPosts(posts));
+  }, []);
+
   return (
     <MainLayout>
       <PostsLayout>
@@ -34,5 +42,14 @@ const Home = () => {
     </MainLayout>
 
   )
+}
+
+export const getServerSideProps = async () => {
+  const res = await axios.get('https://simple-blog-api.crew.red/posts');
+  return {
+    props: {
+      posts: res.data
+    }
+  }
 }
 export default Home;

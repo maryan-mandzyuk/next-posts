@@ -1,20 +1,18 @@
 import * as types from '../types'
 import axios from 'axios'
-export const fetchPosts = () => async dispatch => {
-  const res = await axios.get('https://simple-blog-api.crew.red/posts');
+export const setPosts = (posts) => async dispatch => {
+  // const res = await axios.get('https://simple-blog-api.crew.red/posts');
   dispatch({
     type: types.GET_POSTS,
-    payload: res.data
+    payload: posts
 
   })
 };
 
-export const fetchPost = (id: string) => async (dispatch) => {
-  console.log("here");
-  const res = await axios.get(`https://simple-blog-api.crew.red/posts/${id}`);
+export const setPost = (post) => async dispatch => {
   dispatch({
     type: types.GET_POST,
-    payload: res.data
+    payload: post
 
   })
 }

@@ -2,7 +2,9 @@ import { useRouter } from 'next/dist/client/router'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { fetchPost } from '../../store/actions/postActions';
+import axios from 'axios';
+import { NextPageContext } from 'next';
+import { setPost } from '../../store/actions/postActions';
 import { IPostsState } from '../../store/reducers/postReducer';
 import { MainLayout } from './../../components/MainLayout';
 
@@ -30,12 +32,12 @@ interface IState {
   post: any
 }
 
-const PostPage = () => {
+const PostPage = ({ post }) => {
   const router = useRouter();
-  const { post } = useSelector<IState, IPostsState>(state => state.post)
+  // const { post } = useSelector<IState, IPostsState>(state => state.post)
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchPost(router.query.id.toString()));
+    dispatch(setPost(post));
   }, []);
 
   return (
@@ -47,5 +49,20 @@ const PostPage = () => {
     </MainLayout>
 
   )
+}
+
+interface PostNextPageContext extends NextPageContext {
+  query: {
+    id: string
+  }
+}
+
+export const getServerSideProps = async ({ query }: PostNextPageContext) => {
+  const res = await axios.get(`https://simple-blog-api.crew.red/posts/${query.id}`);
+  return {
+    props: {
+      post: res.data
+    }
+  }
 }
 export default PostPage;
